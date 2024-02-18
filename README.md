@@ -1,3 +1,57 @@
+## Functional Requirements
+
+### Authentication:
+
+#### APIs:
+
+1. **Register Users:**
+   - **Route:** /register
+   - **Method:** POST
+   - **Description:** Registers users in the system.
+
+2. **Send OTP:**
+   - **Route:** /send-otp
+   - **Method:** POST
+   - **Description:** Sends OTP for user verification.
+
+3. **Verify OTP:**
+   - **Route:** /verify-otp
+   - **Method:** POST
+   - **Description:** Verifies OTP to authenticate users.
+
+---
+
+### Donation Processing:
+
+#### APIs:
+
+1. **Create Payment Intent:**
+   - **Route:** /create-payment-intent
+   - **Method:** POST
+   - **Description:** Initiates the payment process by creating a payment intent.
+
+---
+
+### Payment History Management:
+
+#### APIs:
+
+1. **Capture Payment:**
+   - **Route:** /capture-payment
+   - **Method:** POST
+   - **Description:** Captures the payment and saves the donation details.
+
+---
+
+### Data Visualization (Plus Point):
+
+#### APIs:
+
+1. **Get Payment History:**
+   - **Route:** /get-payment-history/<int:user_id>
+   - **Method:** GET
+   - **Description:** Retrieves donation history for a specific user, allowing for data visualization.
+
 ## Steps to Run the Application
 
 ### 1. Create the Database in MySQL
