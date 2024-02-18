@@ -50,43 +50,43 @@ def register_user():
 def generate_otp():
     return str(random.randint(1000, 9999))
 
-class SendOTP(Resource):
-    def post(self):
-        mobile_number = request.json.get('mobile_number')
+# class SendOTP(Resource):
+@app.route('/send-otp', methods=['POST'])
+def post(self):
+    mobile_number = request.json.get('mobile_number')
 
-        if not mobile_number:
-            return jsonify({'error': 'Mobile number is required'}), 400
+    if not mobile_number:
+        return jsonify({'error': 'Mobile number is required'}), 400
 
-        # Generate OTP and store in the database
-        otp = generate_otp()
-        users[mobile_number] = {'otp': otp}
+    # Generate OTP and store in the database
+    otp = generate_otp()
+    users[mobile_number] = {'otp': otp}
 
-        # In a real-world scenario, you would send the OTP via SMS to the user's mobile number
-        # Here, we'll just return the OTP for demonstration purposes
-        return jsonify({'otp': otp})
+    # In a real-world scenario, you would send the OTP via SMS to the user's mobile number
+    # Here, we'll just return the OTP for demonstration purposes
+    return jsonify({'otp': otp})
 
-class VerifyOTP(Resource):
-    def post(self):
-        mobile_number = request.json.get('mobile_number')
-        otp_attempt = request.json.get('otp')
+# class VerifyOTP(Resource):
+@app.route('/verify-otp', methods=['POST'])
+def post(self):
+    mobile_number = request.json.get('mobile_number')
+    otp_attempt = request.json.get('otp')
 
-        if not mobile_number or not otp_attempt:
-            return jsonify({'error': 'Mobile number and OTP are required'}), 400
+    if not mobile_number or not otp_attempt:
+        return jsonify({'error': 'Mobile number and OTP are required'}), 400
 
-        # Check if the mobile number exists in the database
-        if mobile_number not in users:
-            return jsonify({'error': 'Mobile number not found'}), 404
+    # Check if the mobile number exists in the database
+    if mobile_number not in users:
+        return jsonify({'error': 'Mobile number not found'}), 404
 
-        # Verify OTP
-        stored_otp = users[mobile_number]['otp']
-        if otp_attempt == stored_otp:
-            # In a real-world scenario, you would generate and return an authentication token here
-            return jsonify({'message': 'OTP verified successfully'})
-        else:
-            return jsonify({'error': 'Invalid OTP'}), 401
+    # Verify OTP
+    stored_otp = users[mobile_number]['otp']
+    if otp_attempt == stored_otp:
+        # In a real-world scenario, you would generate and return an authentication token here
+        return jsonify({'message': 'OTP verified successfully'})
+    else:
+        return jsonify({'error': 'Invalid OTP'}), 401
 
-api.add_resource(SendOTP, '/send-otp')
-api.add_resource(VerifyOTP, '/verify-otp')
 
 # Set your Stripe API key
 
