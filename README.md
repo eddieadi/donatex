@@ -20,7 +20,7 @@ CREATE TABLE payment (
     amount INT NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
+```
 
 ### 2. Install Python 3 and Create a Virtual Environment
 
@@ -29,17 +29,18 @@ CREATE TABLE payment (
 # Create and activate a virtual environment
 python3 -m venv venv
 source venv/bin/activate   # On Windows, use "venv\Scripts\activate"
-
+```
 
 ### 3. Install Required Python Packages
 
 ```bash
 # Run the following command to install all required Python packages
 pip install -r requirements.txt
-
+```
 
 ### 4. Run the Flask App
 
 ```bash
 # Now that all required Python packages are installed, run the Flask app to make it visible across the network
 flask run --host=0.0.0.0
+```
