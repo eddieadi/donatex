@@ -43,7 +43,7 @@
 
 ---
 
-### Data Visualization (Plus Point):
+### Data Visualization:
 
 #### APIs:
 
