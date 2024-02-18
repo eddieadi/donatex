@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Payment Demo</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+  <h1>Send Money</h1>
+
+  <form id="payment-form">
+    <label for="amount">Amount (in cents): </label>
+    <input type="number" id="amount" name="amount" required>
+    <br>
+    
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display form errors. -->
+    <div id="card-errors" role="alert"></div>
+
+    <button id="submit-button">Pay</button>
+  </form>
+
+  <script>
+    var stripe = Stripe('pk_test_51OkutTSAfG0sO6UDNctpmzkcSA3OmAbuJVmYxGjUVjdjYQA7y52YElUaQLtOgoKKCAFJwjblSN75IRpmkqBANflb00u3PrMDoA');  // Replace with your actual publishable key
+    var elements = stripe.elements();
+
+    // Create an instance of the card Element.
+    var card = elements.create('card');
+
+    // Add an instance of the card Element into the card element div.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Disable the submit button to prevent multiple submissions.
+      document.getElementById('submit-button').disabled = true;
+
+      // Create PaymentIntent on the server.
+      fetch('/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: parseInt(document.getElementById('amount').value) }),  // Replace with the actual amount
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Confirm the card payment on the client side using the client secret
+        stripe.confirmCardPayment(data.client_secret, {
+          payment_method: {
+            card: card,
+          },
+        })
+        .then(function(result) {
+          if (result.error) {
+            // Show error to your customer
+            var displayError = document.getElementById('card-errors');
+            displayError.textContent = result.error.message;
+          } else {
+            // Payment succeeded, redirect or show a success message
+            console.log(result.paymentIntent);
+            
+            alert('Payment succeeded!');
+          }
+
+          // Enable the submit button after payment processing.
+          document.getElementById('submit-button').disabled = false;
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
