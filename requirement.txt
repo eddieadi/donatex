@@ -1,0 +1,4 @@
+Flask==2.0.1
+Flask-Restful==0.3.9
+stripe==2.62.0
+SQLAlchemy==1.4.22
