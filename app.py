@@ -52,7 +52,7 @@ def generate_otp():
 
 # class SendOTP(Resource):
 @app.route('/send-otp', methods=['POST'])
-def post(self):
+def send_otp():
     mobile_number = request.json.get('mobile_number')
 
     if not mobile_number:
@@ -68,7 +68,7 @@ def post(self):
 
 # class VerifyOTP(Resource):
 @app.route('/verify-otp', methods=['POST'])
-def post(self):
+def verify_otp():
     mobile_number = request.json.get('mobile_number')
     otp_attempt = request.json.get('otp')
 
