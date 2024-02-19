@@ -8,7 +8,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/donatex'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/donatex'
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "sk_test_51OkutTSAfG0sO6UDRPf6XVcWDnhv55OavY5ghevZVlDoZdIq4JRm1jSdtgeiAWdoIEenmrTKuLCJIwmRfCf0asXI00SyhRNg7z")
 db = SQLAlchemy(app)
 users = {}
